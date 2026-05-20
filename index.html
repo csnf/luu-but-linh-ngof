@@ -1,0 +1,509 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Lưu Bút Kỷ Niệm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Comfortaa:wght@700&family=Just+Me+Again+Down+Here&family=Pacifico&family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* BẢNG MÀU YÊU CẦU */
+        :root {
+            --color-yellow: #fdf288;
+            --color-blue-light: #aac0f9;
+            --color-blue-dark: #6c7bcc;
+            --color-pink-bg: #fef4f5;
+            --color-pink-light: #fe93d7;
+            --color-pink-dark: #ee4176;
+        }
+
+        body {
+            font-family: "Quicksand", sans-serif;
+            font-weight: 600; font-style: normal;
+            margin: 0; padding: 0;
+            background-image: url('https://i.imgur.com/lB0pKSe.png');
+            background-size: cover;
+            background-attachment: fixed;
+            display: flex; height: 100vh; overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* KHUNG NHẠC GÓC TRÊN PHẢI */
+        .music-player {
+            position: fixed; top: 10px; right: 20px; z-index: 1000;
+            width: 250px; height: 80px; opacity: 0.8; transition: 0.3s;
+            background: white; border-radius: 10px; padding: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .music-player:hover { opacity: 1; }
+        
+        .main-layout {
+            display: flex; width: 100%; height: 100vh; padding: 20px; box-sizing: border-box; gap: 20px;
+        }
+
+        /* THANH CÔNG CỤ BÊN TRÁI */
+        .sidebar-tools {
+            width: 400px; min-width: 380px; height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px; padding: 15px; overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 3px dashed var(--color-pink-light);
+            display: flex; flex-direction: column; gap: 15px;
+            box-sizing: border-box; transition: 0.3s;
+        }
+
+        /* CÁC KHUNG CHỨC NĂNG */
+        .section-box {
+            background-color: #fff; padding: 12px; border-radius: 15px; 
+            border: 2px solid var(--color-blue-light);
+        }
+        .section-box.pink-border { border-color: var(--color-pink-light); }
+        
+        .section-title {
+            color: var(--color-pink-dark); text-align: center; margin: 0 0 10px 0;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
+            background: var(--color-pink-bg); padding: 8px; border-radius: 8px;
+        }
+
+        /* NHẬP TÊN & VIẾT THƯ */
+        .input-text-field {
+            width: 100%; padding: 10px; border: 2px solid var(--color-blue-light);
+            border-radius: 8px; font-family: inherit; box-sizing: border-box;
+            text-align: center; color: var(--color-blue-dark); font-weight: bold;
+        }
+        .textarea-field {
+            width: 100%; height: 60px; padding: 8px; border: 2px solid var(--color-blue-light);
+            border-radius: 8px; font-family: inherit; box-sizing: border-box; resize: none;
+        }
+        .text-controls { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; justify-content: space-between; }
+        .text-controls select, .text-controls input {
+            padding: 5px; border-radius: 5px; border: 1px solid var(--color-blue-light); font-family: inherit; font-size: 0.8rem;
+        }
+        .preview-box {
+            width: 100%; height: 45px; border: 1px dashed gray; margin-top: 8px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; background: #fafafa; overflow: hidden; font-size: 1.1rem;
+        }
+        .add-text-btn {
+            width: 100%; background: var(--color-blue-light); color: white; border: none;
+            padding: 8px; border-radius: 8px; margin-top: 8px; font-family: inherit;
+            font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .add-text-btn:hover { background: var(--color-blue-dark); }
+
+        /* KHU VỰC AVATAR KAWAII */
+        .avatar-plate-area { position: relative; text-align: center; }
+        .plate-frame {
+            background-image: url('https://i.imgur.com/Jkj8Rcx.png');
+            background-size: 100% 100%; width: 220px; height: 220px; margin: 0 auto;
+            position: relative; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
+        .avatar-base-img { width: 100px; z-index: 1; pointer-events: none; margin-top: 20px;}
+        .avatar-select-row { display: flex; justify-content: center; gap: 10px; margin: 8px 0; }
+        .avatar-select-row img { width: 45px; height: 45px; cursor: pointer; border: 2px solid transparent; border-radius: 50%; background: #fff; padding: 2px;}
+        .avatar-select-row img:hover { border-color: var(--color-pink-dark); }
+        
+        .item-shelf {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
+            max-height: 120px; overflow-y: auto; padding: 5px; border: 1px inset #eee; border-radius: 8px;
+        }
+        .shelf-img { width: 45px; height: 45px; object-fit: contain; cursor: pointer; border: 1px solid #f0f0f0; border-radius: 5px; background: #fff; }
+        .shelf-img:hover { transform: scale(1.1); border-color: var(--color-pink-light); }
+
+        /* KHU VỰC STICKER RỔ */
+        .sticker-tabs { display: flex; justify-content: center; gap: 4px; margin-bottom: 8px; }
+        .sticker-tabs button {
+            background-color: var(--color-blue-light); border: none; padding: 6px 10px;
+            border-radius: 5px; font-family: inherit; font-weight: bold; color: white; cursor: pointer; font-size: 0.75rem;
+        }
+        .sticker-tabs button:hover { background-color: var(--color-blue-dark); }
+        .sticker-basket {
+            background-image: url('https://i.imgur.com/cuAqTWR.png'); background-size: 100% 100%;
+            height: 150px; padding: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+            overflow-y: auto; align-content: flex-start;
+        }
+        .sticker-basket img { width: 50px; height: 50px; object-fit: contain; cursor: pointer; transition: 0.2s;}
+        .sticker-basket img:hover { transform: scale(1.15); }
+
+        /* NÚT TẢI ẢNH */
+        .upload-btn-label {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--color-blue-light); color: white; padding: 10px; border-radius: 8px;
+            cursor: pointer; font-weight: bold; font-size: 0.95rem;
+        }
+        .upload-btn-label img { width: 24px; }
+
+        /* NÚT GỬI TRONG DRIVE */
+        .submit-big-btn {
+            background-color: var(--color-pink-dark); color: white; border: none; padding: 15px;
+            font-size: 1.1rem; border-radius: 12px; font-family: inherit; font-weight: bold;
+            cursor: pointer; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.15); transition: 0.2s; margin-top: auto;
+        }
+        .submit-big-btn:hover { background-color: var(--color-pink-light); transform: translateY(-2px); }
+
+        /* ======================================================== */
+        /* QUYỂN SỔ BÊN PHẢI */
+        /* ======================================================== */
+        .scrapbook-container {
+            flex: 1; height: 100%; display: flex; flex-direction: column; position: relative;
+        }
+        .book-canvas-wrapper {
+            flex: 1; background-image: url('https://i.imgur.com/l6G7y3X.png');
+            background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+            position: relative; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            overflow: hidden; margin-top: 50px; /* Chừa chỗ cho nhạc */
+        }
+        .bottom-footer-text {
+            background: rgba(255,255,255,0.85); padding: 10px 20px; border-radius: 12px;
+            text-align: center; font-size: 0.9rem; color: var(--color-blue-dark); margin-top: 15px;
+            font-weight: bold; border: 2px dashed var(--color-pink-light); line-height: 1.4;
+        }
+
+        /* ======================================================== */
+        /* ĐỊNH DẠNG STICKER (QUẦN ÁO & STICKER SỔ) */
+        /* ======================================================== */
+        .sticker-wrapper {
+            position: absolute; cursor: move; user-select: none;
+            padding: 5px; box-sizing: border-box; display: inline-block;
+        }
+        .sticker-wrapper .control-btn, .sticker-wrapper .resize-handle { display: none; }
+        .sticker-wrapper.active { border: 1px dashed var(--color-pink-dark); }
+        .sticker-wrapper.active .control-btn, .sticker-wrapper.active .resize-handle { display: block; }
+        .sticker-wrapper .content-core { width: 100%; height: 100%; object-fit: contain; pointer-events: none; display: block; }
+
+        /* Nút điều khiển */
+        .control-btn {
+            position: absolute; width: 20px; height: 20px; border-radius: 50%;
+            color: white; text-align: center; line-height: 18px; font-size: 12px;
+            font-weight: bold; cursor: pointer; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .btn-delete { background: var(--color-pink-dark); top: -10px; right: -10px; }
+        .btn-rotate { background: var(--color-yellow); top: -10px; left: -10px; color: #333; }
+        .resize-handle {
+            position: absolute; width: 16px; height: 16px; background: white;
+            border: 2px solid var(--color-pink-dark); border-radius: 50%;
+            bottom: -8px; right: -8px; cursor: se-resize; z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="music-player">
+        <iframe width="100%" height="80" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A7961882&color=%23ff5500&auto_play=true&hide_related=false&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"></iframe>
+    </div>
+
+    <div class="main-layout" id="capture-zone">
+        
+        <div class="sidebar-tools" id="sidebar">
+            
+            <div class="section-box pink-border hide-on-print">
+                <h3 class="section-title">Cho tui xin tên của tình yêu ngeng ❤</h3>
+                <input type="text" class="input-text-field" id="sender-name" placeholder="Nhập tên vào đây nàooo...">
+            </div>
+
+            <div class="section-box keep-for-print" id="avatar-section">
+                <h3 class="section-title hide-on-print">Avatar Kawaii cho cả nhà :3</h3>
+                
+                <div class="avatar-plate-area">
+                    <div class="plate-frame" id="avatar-plate">
+                        <img src="https://i.imgur.com/Z5BceLv.png" class="avatar-base-img" id="main-character">
+                    </div>
+                </div>
+                
+                <div class="avatar-select-row hide-on-print">
+                    <img src="https://i.imgur.com/Z5BceLv.png" onclick="changeBaseCharacter('https://i.imgur.com/Z5BceLv.png')">
+                    <img src="https://i.imgur.com/SfdbDhQ.png" onclick="changeBaseCharacter('https://i.imgur.com/SfdbDhQ.png')">
+                    <img src="https://i.imgur.com/9OBKwJX.png" onclick="changeBaseCharacter('https://i.imgur.com/9OBKwJX.png')">
+                </div>
+                
+                <p class="hide-on-print" style="font-size:0.8rem; color: gray; margin: 5px 0; text-align:center;">Bấm để mặc đồ cho búp bê nha:</p>
+                <div class="item-shelf hide-on-print" id="clothes-shelf"></div>
+            </div>
+
+            <div class="section-box pink-border hide-on-print">
+                <h3 class="section-title">Viết gì đó vào sổ nè ✍</h3>
+                <textarea class="textarea-field" id="text-message" placeholder="Gõ lời chúc vào đây nè..." oninput="updateTextPreview()"></textarea>
+                
+                <div class="text-controls">
+                    <select id="text-font" onchange="updateTextPreview()">
+                        <option value="'Quicksand', sans-serif">Chữ Tròn</option>
+                        <option value="'Caveat', cursive">Chữ Kỷ Niệm</option>
+                        <option value="'Pacifico', cursive">Chữ Nghệ Thuật</option>
+                        <option value="'Just Me Again Down Here', cursive">Chữ Mảnh Khảnh</option>
+                    </select>
+                    <input type="color" id="text-color" value="#ee4176" onchange="updateTextPreview()">
+                    <select id="text-size" onchange="updateTextPreview()">
+                        <option value="20">Size Vừa</option>
+                        <option value="28" selected>Size To</option>
+                        <option value="36">Size Đại</option>
+                    </select>
+                </div>
+                <div class="preview-box">
+                    <span id="text-preview-render" style="color: #ee4176; font-size: 28px;">Preview Chữ</span>
+                </div>
+                <button class="add-text-btn" onclick="addLetterToBook()">+ Thả chữ vào sổ</button>
+            </div>
+
+            <div class="section-box hide-on-print">
+                <label for="img-file-input" class="upload-btn-label">
+                    <img src="https://i.imgur.com/D6hB7Bm.png" alt="icon"> Kỉ niệm của 2 đứa mềnh (Tải ảnh)
+                </label>
+                <input type="file" id="img-file-input" accept="image/*" style="display: none;" onchange="handleLocalImageUpload(event)">
+            </div>
+
+            <div class="section-box hide-on-print">
+                <h3 class="section-title">NHỚ TRANG TRÍ CHO TRANG LƯU BÚT NHAAAA ✨</h3>
+                <div class="sticker-tabs">
+                    <button onclick="switchStickerTab('hoa')">Hoa cho ngò ưii</button>
+                    <button onclick="switchStickerTab('scrapbook')">Scrapbook</button>
+                    <button onclick="switchStickerTab('linhtinh')">Linh tinh</button>
+                </div>
+                <div class="sticker-basket" id="sticker-basket"></div>
+            </div>
+
+            <button class="submit-big-btn hide-on-print" onclick="uploadScrapbookToDrive()">GỬI LƯU BÚT VÀO DRIVE 💌</button>
+        </div>
+
+        <div class="scrapbook-container">
+            <div class="book-canvas-wrapper" id="print-book-zone">
+                <div id="global-canvas" style="width:100%; height:100%; position:relative;"></div>
+            </div>
+            
+            <div class="bottom-footer-text hide-on-print">
+                "Cảm ơn tình yêu đã viết lưu bút cho tớ, cảm ơn đằng ấy đã là một phần kí ức tuyệt đẹp trong 1000 ngày nắng Thanh Miện của ngòo, mong sao 2 đứa mình sẽ luôn như thế này bất kể khoảng cách nhé, love you &lt;3"
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Dữ liệu hình ảnh quần áo
+        const listClothes = [
+            "https://i.imgur.com/KkPBMUK.png", "https://i.imgur.com/cmGTkAZ.png", "https://i.imgur.com/5W24lju.png",
+            "https://i.imgur.com/hl1qG6u.png", "https://i.imgur.com/I25i670.png", "https://i.imgur.com/0Gr8ZLu.png",
+            "https://i.imgur.com/uPrrwVi.png", "https://i.imgur.com/zLCe2Ox.png", "https://i.imgur.com/nvofcP7.png",
+            "https://i.imgur.com/xFv62Lb.png", "https://i.imgur.com/BTtgT0c.png", "https://i.imgur.com/Tmx6GHA.png"
+        ];
+
+        // Dữ liệu hình ảnh Sticker
+        const listStickers = {
+            hoa: ["https://i.imgur.com/GGlSor1.png", "https://i.imgur.com/qShB9J4.png", "https://i.imgur.com/86zjKoQ.png", "https://i.imgur.com/pGryiHK.png", "https://i.imgur.com/qUJpdKV.png", "https://i.imgur.com/DUWY809.png", "https://i.imgur.com/qW08gPp.png", "https://i.imgur.com/Aoxbqgz.png", "https://i.imgur.com/nm3Ulrq.png", "https://i.imgur.com/Ucl4d1O.png", "https://i.imgur.com/hsL4Xpa.png", "https://i.imgur.com/2WWXksA.png", "https://i.imgur.com/AiaLwR1.png", "https://i.imgur.com/hWuArnn.png", "https://i.imgur.com/sQIM9Y1.png", "https://i.imgur.com/GRnUBUP.png", "https://i.imgur.com/ciD8fYa.png", "https://i.imgur.com/vs3DuTs.png"],
+            scrapbook: ["https://i.imgur.com/Qb2cTqY.png", "https://i.imgur.com/JJqVAV3.png", "https://i.imgur.com/WhttTRk.png", "https://i.imgur.com/0ktkALA.png", "https://i.imgur.com/8bsTGFf.png", "https://i.imgur.com/1dyJSQH.png", "https://i.imgur.com/ziEUz0U.png", "https://i.imgur.com/Cm29oNa.png", "https://i.imgur.com/WAuLKKg.png", "https://i.imgur.com/Y5HIO1u.png", "https://i.imgur.com/xwnmCav.png", "https://i.imgur.com/8fIDETg.png", "https://i.imgur.com/U2ajYx8.png", "https://i.imgur.com/fXUMahl.png", "https://i.imgur.com/Fwvkiaf.png", "https://i.imgur.com/FrfIxQT.png", "https://i.imgur.com/76huHmh.png", "https://i.imgur.com/cqL649q.png", "https://i.imgur.com/bWvxJw3.png", "https://i.imgur.com/njTMdqj.png", "https://i.imgur.com/RExKt3k.png"],
+            linhtinh: ["https://i.imgur.com/IKSZ9U5.png", "https://i.imgur.com/c6RnfDl.png", "https://i.imgur.com/TyCguWJ.png", "https://i.imgur.com/iXKQfrH.png", "https://i.imgur.com/cI3uSOM.png", "https://i.imgur.com/MWtRZUB.png", "https://i.imgur.com/78rOnQp.png", "https://i.imgur.com/x8kWDBW.png", "https://i.imgur.com/SWijvwR.png", "https://i.imgur.com/0iSxgwT.png", "https://i.imgur.com/d5mZO8h.png", "https://i.imgur.com/KtTq3hk.png", "https://i.imgur.com/TNpchD0.png", "https://i.imgur.com/UIHGlwK.png", "https://i.imgur.com/gUoEyNv.png", "https://i.imgur.com/tqpzTTI.png", "https://i.imgur.com/h3ImcaQ.png", "https://i.imgur.com/prLiG3l.png", "https://i.imgur.com/ykbTQgO.png", "https://i.imgur.com/K2L8rvT.png", "https://i.imgur.com/wVizaJX.png", "https://i.imgur.com/v6xJgch.png", "https://i.imgur.com/0ge9NBR.png", "https://i.imgur.com/wRNl2pR.png", "https://i.imgur.com/3LQZCbJ.png", "https://i.imgur.com/rKupyDI.png", "https://i.imgur.com/rHzWwaF.png", "https://i.imgur.com/qD6knGz.png", "https://i.imgur.com/1iQgVv3.png", "https://i.imgur.com/RnOqzUL.png", "https://i.imgur.com/voRTT2m.png", "https://i.imgur.com/AFRPXyL.png", "https://i.imgur.com/kCMbl8r.png", "https://i.imgur.com/Nqao60m.png", "https://i.imgur.com/sFSVUqf.png", "https://i.imgur.com/XO8qZC3.png", "https://i.imgur.com/nej1IzP.png", "https://i.imgur.com/MeuNjYE.png", "https://i.imgur.com/SXNmJk5.png", "https://i.imgur.com/4avEyxZ.png", "https://i.imgur.com/lfvoTl3.png", "https://i.imgur.com/Aly8CrL.png", "https://i.imgur.com/iU2ib0R.png", "https://i.imgur.com/OZu3oj4.png", "https://i.imgur.com/jnO0NIT.png", "https://i.imgur.com/YNkPLpo.png", "https://i.imgur.com/3H17wuv.png", "https://i.imgur.com/cwv1bO1.png", "https://i.imgur.com/wOLxUeT.png", "https://i.imgur.com/x44hsn5.png", "https://i.imgur.com/8kETSky.png", "https://i.imgur.com/HyrXYnm.png", "https://i.imgur.com/UAbh9vq.png", "https://i.imgur.com/JN0GGAn.png", "https://i.imgur.com/pmkkVuF.png", "https://i.imgur.com/Z3XVIL7.png", "https://i.imgur.com/w4N4x1V.png", "https://i.imgur.com/w7N2hiS.png", "https://i.imgur.com/Sq22Pw1.png", "https://i.imgur.com/Mc4I9qE.png", "https://i.imgur.com/tSj7qC5.png", "https://i.imgur.com/bN15vVu.png", "https://i.imgur.com/QlAYHqC.png", "https://i.imgur.com/IBho6fW.png", "https://i.imgur.com/pgGtoRn.png", "https://i.imgur.com/GEudCnt.png", "https://i.imgur.com/zRJ7tHb.png", "https://i.imgur.com/sCBfO2a.png", "https://i.imgur.com/OsF6jYi.png", "https://i.imgur.com/IOqeKZd.jpeg", "https://i.imgur.com/alWnlhZ.jpeg", "https://i.imgur.com/iwIRf13.png", "https://i.imgur.com/Xd45R7y.png", "https://i.imgur.com/VYeBKvU.png", "https://i.imgur.com/VGfzPx9.png", "https://i.imgur.com/Kic3YgY.png", "https://i.imgur.com/21tc0W8.png", "https://i.imgur.com/C7lhfHn.png"]
+        };
+
+        let activeCounter = 100;
+
+        window.onload = () => {
+            // Nạp quần áo
+            const shelf = document.getElementById('clothes-shelf');
+            listClothes.forEach(url => {
+                let img = document.createElement('img');
+                img.src = url; img.className = 'shelf-img';
+                // Áo quần khi bấm sẽ hiện trên đĩa Avatar
+                img.onclick = () => spawnElement(url, 'avatar-plate', 80);
+                shelf.appendChild(img);
+            });
+            // Nạp sticker 
+            switchStickerTab('hoa');
+
+            // Hủy chọn sticker khi click ra ngoài
+            document.addEventListener('mousedown', function(e) {
+                if (!e.target.closest('.sticker-wrapper')) {
+                    document.querySelectorAll('.sticker-wrapper').forEach(w => w.classList.remove('active'));
+                }
+            });
+        };
+
+        function changeBaseCharacter(url) { document.getElementById('main-character').src = url; }
+
+        function switchStickerTab(tabName) {
+            const basket = document.getElementById('sticker-basket');
+            basket.innerHTML = '';
+            listStickers[tabName].forEach(url => {
+                let img = document.createElement('img');
+                img.src = url;
+                // Sticker khi bấm sẽ hiện trên sổ
+                img.onclick = () => spawnElement(url, 'global-canvas', 120);
+                basket.appendChild(img);
+            });
+        }
+
+        function updateTextPreview() {
+            const msg = document.getElementById('text-message').value || "Preview Chữ";
+            const font = document.getElementById('text-font').value;
+            const color = document.getElementById('text-color').value;
+            const size = document.getElementById('text-size').value;
+            
+            const pRender = document.getElementById('text-preview-render');
+            pRender.innerText = msg; pRender.style.fontFamily = font;
+            pRender.style.color = color; pRender.style.fontSize = size + "px";
+        }
+
+        function addLetterToBook() {
+            const msg = document.getElementById('text-message').value;
+            if(!msg) return;
+            
+            const font = document.getElementById('text-font').value;
+            const color = document.getElementById('text-color').value;
+            const size = document.getElementById('text-size').value;
+
+            const textSpan = document.createElement('span');
+            textSpan.innerText = msg; textSpan.style.fontFamily = font;
+            textSpan.style.color = color; textSpan.style.fontSize = size + "px";
+            textSpan.style.fontWeight = "bold"; textSpan.style.whiteSpace = "nowrap";
+
+            spawnElement(textSpan, 'global-canvas', null, true);
+            document.getElementById('text-message').value = ''; updateTextPreview();
+        }
+
+        function handleLocalImageUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const r = new FileReader();
+                r.onload = function(evt) { spawnElement(evt.target.result, 'global-canvas', 250); }
+                r.readAsDataURL(file);
+            }
+        }
+
+        // Tạo Sticker và các nút tương tác
+        function spawnElement(source, targetContainerId, defaultSize = 100, isText = false) {
+            const container = document.getElementById(targetContainerId);
+            const wrapper = document.createElement('div');
+            wrapper.className = 'sticker-wrapper active';
+            
+            // Căn giữa vị trí xuất hiện
+            wrapper.style.left = targetContainerId === 'avatar-plate' ? '70px' : '50px';
+            wrapper.style.top = targetContainerId === 'avatar-plate' ? '50px' : '50px';
+            wrapper.style.zIndex = activeCounter++;
+            
+            if(defaultSize && !isText) { wrapper.style.width = defaultSize + 'px'; wrapper.style.height = defaultSize + 'px'; }
+
+            let core = isText ? source : document.createElement('img');
+            if(!isText) core.src = source;
+            core.className = 'content-core';
+            wrapper.appendChild(core);
+
+            // Nút xóa
+            const delBtn = document.createElement('div');
+            delBtn.className = 'control-btn btn-delete'; delBtn.innerHTML = '×';
+            delBtn.onclick = (e) => { e.stopPropagation(); wrapper.remove(); };
+            wrapper.appendChild(delBtn);
+
+            // Nút xoay
+            const rotBtn = document.createElement('div');
+            rotBtn.className = 'control-btn btn-rotate'; rotBtn.innerHTML = '⟳';
+            wrapper.appendChild(rotBtn);
+
+            // Chấm đổi size
+            const handle = document.createElement('div');
+            handle.className = 'resize-handle';
+            wrapper.appendChild(handle);
+
+            container.appendChild(wrapper);
+
+            // Tắt active các element khác
+            document.querySelectorAll('.sticker-wrapper').forEach(w => { if(w !== wrapper) w.classList.remove('active'); });
+            setupInteractions(wrapper, rotBtn, handle);
+        }
+
+        function setupInteractions(wrapper, rotBtn, handle) {
+            wrapper.addEventListener('mousedown', function(e) {
+                if(e.target.classList.contains('control-btn') || e.target.classList.contains('resize-handle')) return;
+                document.querySelectorAll('.sticker-wrapper').forEach(w => w.classList.remove('active'));
+                wrapper.classList.add('active'); wrapper.style.zIndex = activeCounter++;
+                
+                let startX = e.clientX, startY = e.clientY;
+                let startLeft = wrapper.offsetLeft, startTop = wrapper.offsetTop;
+
+                function dragMove(ev) {
+                    wrapper.style.left = (startLeft + (ev.clientX - startX)) + 'px';
+                    wrapper.style.top = (startTop + (ev.clientY - startY)) + 'px';
+                }
+                function dragEnd() { window.removeEventListener('mousemove', dragMove); window.removeEventListener('mouseup', dragEnd); }
+                window.addEventListener('mousemove', dragMove); window.addEventListener('mouseup', dragEnd);
+            });
+
+            handle.addEventListener('mousedown', function(e) {
+                e.preventDefault(); e.stopPropagation();
+                let startWidth = wrapper.offsetWidth; let startX = e.clientX;
+                function resizeMove(ev) {
+                    let newWidth = startWidth + (ev.clientX - startX);
+                    if(newWidth > 30) { wrapper.style.width = newWidth + 'px'; if(!wrapper.querySelector('span')) wrapper.style.height = newWidth + 'px'; }
+                }
+                function resizeEnd() { window.removeEventListener('mousemove', resizeMove); window.removeEventListener('mouseup', resizeEnd); }
+                window.addEventListener('mousemove', resizeMove); window.addEventListener('mouseup', resizeEnd);
+            });
+
+            rotBtn.addEventListener('mousedown', function(e) {
+                e.preventDefault(); e.stopPropagation();
+                let rect = wrapper.getBoundingClientRect();
+                let centerX = rect.left + rect.width / 2; let centerY = rect.top + rect.height / 2;
+                function rotateMove(ev) {
+                    let angle = Math.atan2(ev.clientY - centerY, ev.clientX - centerX);
+                    wrapper.style.transform = `rotate(${angle * (180 / Math.PI) - 45}deg)`;
+                }
+                function rotateEnd() { window.removeEventListener('mousemove', rotateMove); window.removeEventListener('mouseup', rotateEnd); }
+                window.addEventListener('mousemove', rotateMove); window.addEventListener('mouseup', rotateEnd);
+            });
+        }
+
+        // GỬI VÀO DRIVE BẰNG CÁCH CHỤP ẢNH "THÔNG MINH"
+        function uploadScrapbookToDrive() {
+            // Xóa viền đỏ của các sticker
+            document.querySelectorAll('.sticker-wrapper').forEach(w => w.classList.remove('active'));
+
+            const scriptURL = "https://script.google.com/macros/s/AKfycbz0bFt3aVAwSsNrHLVc6GBjWr5_2Okc-HoyJKf7Ds3PskAdNbSC9GO6Hd1XJfY7YhvT/exec"; 
+            const sender = document.getElementById('sender-name').value.trim() || 'AiDoGiauTen';
+            alert("Đang đóng gói và chụp một bức ảnh siêu đẹp gửi vào Drive của ngò tò... Bà đợi 3-5s nhe!");
+
+            // THUẬT TOÁN CHỤP ẢNH: Ẩn các công cụ không cần thiết để tạo ra layout 2 cột y chang mẫu Drive
+            const hiddenEls = document.querySelectorAll('.hide-on-print');
+            hiddenEls.forEach(el => el.style.display = 'none');
+            
+            const sidebar = document.getElementById('sidebar');
+            sidebar.style.background = 'transparent';
+            sidebar.style.border = 'none';
+            sidebar.style.boxShadow = 'none';
+
+            const captureZone = document.getElementById('capture-zone');
+            // Cài màu nền của ảnh in
+            captureZone.style.background = '#fef4f5';
+
+            html2canvas(captureZone, { backgroundColor: '#fef4f5', useCORS: true }).then(canvas => {
+                // Khôi phục lại giao diện trang web sau khi chụp xong
+                hiddenEls.forEach(el => el.style.display = '');
+                sidebar.style.background = '';
+                sidebar.style.border = '';
+                sidebar.style.boxShadow = '';
+                captureZone.style.background = '';
+
+                // Gửi Base64 lên Apps Script
+                const base64Data = canvas.toDataURL('image/png');
+                let box = new FormData();
+                box.append('filename', 'LuuBut_' + sender + '_' + new Date().getTime() + '.png');
+                box.append('fileData', base64Data);
+
+                fetch(scriptURL, { method: 'POST', body: box, mode: 'no-cors' })
+                .then(() => {
+                    alert("Gửi thành công rực rỡ rồi nha bà ơi! Ảnh nằm gọn trong Drive rồi đó! 🥰");
+                })
+                .catch(err => {
+                    alert("Úi, mạng lag xíu rồi, kiểm tra lại nha.");
+                });
+            });
+        }
+    </script> <script src="https://w.soundcloud.com/player/api.js"></script>
+    <script>
+        // Mẹo "lách luật": Bật nhạc ngay khi người dùng click chuột lần đầu tiên vào bất cứ đâu trên web
+        document.addEventListener('click', function() {
+            var widgetIframe = document.getElementById('sc-widget');
+            if (widgetIframe) {
+                var widget = SC.Widget(widgetIframe);
+                widget.play();
+            }
+        }, { once: true }); // Tham số { once: true } giúp sự kiện này chỉ kích hoạt đúng 1 lần đầu tiên
+    </script>
+</body>
+</html>
