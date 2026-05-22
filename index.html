@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Dancing+Script:wght@600&family=Pacifico&family=Patrick+Hand&family=Quicksand:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* BẢNG MÀU YÊU CẦU */
         :root {
             --color-yellow: #fdf288;
             --color-blue-light: #aac0f9;
@@ -21,7 +20,7 @@
 
         body {
             font-family: "Quicksand", sans-serif;
-            font-weight: 600; font-style: normal;
+            font-weight: 600; 
             margin: 0; padding: 0;
             background-image: url('https://i.imgur.com/lB0pKSe.png');
             background-size: cover;
@@ -30,7 +29,6 @@
             box-sizing: border-box;
         }
 
-        /* KHUNG NHẠC GÓC TRÊN PHẢI */
         .music-player {
             position: fixed; top: 10px; right: 20px; z-index: 1000;
             width: 250px; height: 80px; opacity: 0.8; transition: 0.3s;
@@ -42,7 +40,6 @@
             display: flex; width: 100%; height: 100vh; padding: 20px; box-sizing: border-box; gap: 20px;
         }
 
-        /* THANH CÔNG CỤ BÊN TRÁI */
         .sidebar-tools {
             width: 400px; min-width: 380px; height: 100%;
             background-color: rgba(255, 255, 255, 0.9);
@@ -53,7 +50,6 @@
             box-sizing: border-box; transition: 0.3s;
         }
 
-        /* CÁC KHUNG CHỨC NĂNG */
         .section-box {
             background-color: #fff; padding: 12px; border-radius: 15px; 
             border: 2px solid var(--color-blue-light);
@@ -66,7 +62,6 @@
             background: var(--color-pink-bg); padding: 8px; border-radius: 8px;
         }
 
-        /* NHẬP TÊN & VIẾT THƯ */
         .input-text-field {
             width: 100%; padding: 10px; border: 2px solid var(--color-blue-light);
             border-radius: 8px; font-family: inherit; box-sizing: border-box;
@@ -92,7 +87,6 @@
         }
         .add-text-btn:hover { background: var(--color-blue-dark); }
 
-        /* KHU VỰC AVATAR KAWAII */
         .avatar-plate-area { position: relative; text-align: center; }
         .plate-frame {
             background-image: url('https://i.imgur.com/Jkj8Rcx.png');
@@ -111,7 +105,6 @@
         .shelf-img { width: 45px; height: 45px; object-fit: contain; cursor: pointer; border: 1px solid #f0f0f0; border-radius: 5px; background: #fff; }
         .shelf-img:hover { transform: scale(1.1); border-color: var(--color-pink-light); }
 
-        /* KHU VỰC STICKER RỔ */
         .sticker-tabs { display: flex; justify-content: center; gap: 4px; margin-bottom: 8px; }
         .sticker-tabs button {
             background-color: var(--color-blue-light); border: none; padding: 6px 10px;
@@ -126,7 +119,6 @@
         .sticker-basket img { width: 50px; height: 50px; object-fit: contain; cursor: pointer; transition: 0.2s;}
         .sticker-basket img:hover { transform: scale(1.15); }
 
-        /* NÚT TẢI ẢNH */
         .upload-btn-label {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             background: var(--color-blue-light); color: white; padding: 10px; border-radius: 8px;
@@ -134,7 +126,6 @@
         }
         .upload-btn-label img { width: 24px; }
 
-        /* NÚT GỬI TRONG DRIVE */
         .submit-big-btn {
             background-color: var(--color-pink-dark); color: white; border: none; padding: 15px;
             font-size: 1.1rem; border-radius: 12px; font-family: inherit; font-weight: bold;
@@ -142,7 +133,6 @@
         }
         .submit-big-btn:hover { background-color: var(--color-pink-light); transform: translateY(-2px); }
 
-        /* QUYỂN SỔ BÊN PHẢI */
         .scrapbook-container {
             flex: 1; height: 100%; display: flex; flex-direction: column; position: relative;
         }
@@ -158,7 +148,6 @@
             font-weight: bold; border: 2px dashed var(--color-pink-light); line-height: 1.4;
         }
 
-        /* ĐỊNH DẠNG STICKER CHUNG */
         .sticker-wrapper {
             position: absolute; cursor: move; user-select: none;
             padding: 5px; box-sizing: border-box; display: inline-block;
@@ -174,7 +163,6 @@
             font-weight: bold; line-height: 1.3; overflow: hidden;
         }
 
-        /* CÁC NÚT ĐIỀU KHIỂN STICKER */
         .control-btn {
             position: absolute; width: 20px; height: 20px; border-radius: 50%;
             color: white; text-align: center; line-height: 18px; font-size: 12px;
@@ -188,7 +176,6 @@
             bottom: -8px; right: -8px; cursor: se-resize; z-index: 5;
         }
 
-        /* RESPONSIVE CSS CHO ĐIỆN THOẠI VÀ MÁY TÍNH BẢNG */
         @media (max-width: 768px) {
             body { flex-direction: column; overflow-y: auto; height: auto; }
             .main-layout { flex-direction: column; height: auto; padding: 10px; gap: 15px; }
@@ -217,13 +204,13 @@
                 <h3 class="section-title hide-on-print">Avatar Kawaii cho cả nhà :3</h3>
                 <div class="avatar-plate-area">
                     <div class="plate-frame" id="avatar-plate">
-                        <img src="https://i.imgur.com/Z5BceLv.png" class="avatar-base-img" id="main-character">
+                        <img src="https://i.imgur.com/Z5BceLv.png" class="avatar-base-img" id="main-character" alt="avatar">
                     </div>
                 </div>
                 <div class="avatar-select-row hide-on-print">
-                    <img src="https://i.imgur.com/Z5BceLv.png" onclick="changeBaseCharacter('https://i.imgur.com/Z5BceLv.png')">
-                    <img src="https://i.imgur.com/SfdbDhQ.png" onclick="changeBaseCharacter('https://i.imgur.com/SfdbDhQ.png')">
-                    <img src="https://i.imgur.com/9OBKwJX.png" onclick="changeBaseCharacter('https://i.imgur.com/9OBKwJX.png')">
+                    <img src="https://i.imgur.com/Z5BceLv.png" onclick="changeBaseCharacter('https://i.imgur.com/Z5BceLv.png')" alt="char1">
+                    <img src="https://i.imgur.com/SfdbDhQ.png" onclick="changeBaseCharacter('https://i.imgur.com/SfdbDhQ.png')" alt="char2">
+                    <img src="https://i.imgur.com/9OBKwJX.png" onclick="changeBaseCharacter('https://i.imgur.com/9OBKwJX.png')" alt="char3">
                 </div>
                 <p class="hide-on-print" style="font-size:0.8rem; color: gray; margin: 5px 0; text-align:center;">Bấm để mặc đồ cho búp bê nha:</p>
                 <div class="item-shelf hide-on-print" id="clothes-shelf"></div>
@@ -298,14 +285,17 @@
 
         let activeCounter = 100;
 
-        window.onload = () => {
+        // CHẠY SAU KHI WEB ĐÃ TẢI XONG ĐỂ TRÁNH LỖI MẤT ITEM
+        document.addEventListener('DOMContentLoaded', () => {
             const shelf = document.getElementById('clothes-shelf');
-            listClothes.forEach(url => {
-                let img = document.createElement('img');
-                img.src = url; img.className = 'shelf-img';
-                img.onclick = () => spawnElement(url, 'avatar-plate', 80);
-                shelf.appendChild(img);
-            });
+            if (shelf) {
+                listClothes.forEach(url => {
+                    let img = document.createElement('img');
+                    img.src = url; img.className = 'shelf-img';
+                    img.onclick = () => spawnElement(url, 'avatar-plate', 80);
+                    shelf.appendChild(img);
+                });
+            }
             switchStickerTab('hoa');
 
             const unselectHandler = function(e) {
@@ -315,12 +305,16 @@
             };
             document.addEventListener('mousedown', unselectHandler);
             document.addEventListener('touchstart', unselectHandler);
-        };
+        });
 
-        function changeBaseCharacter(url) { document.getElementById('main-character').src = url; }
+        function changeBaseCharacter(url) { 
+            const mainChar = document.getElementById('main-character');
+            if(mainChar) mainChar.src = url; 
+        }
 
         function switchStickerTab(tabName) {
             const basket = document.getElementById('sticker-basket');
+            if(!basket || !listStickers[tabName]) return;
             basket.innerHTML = '';
             listStickers[tabName].forEach(url => {
                 let img = document.createElement('img');
@@ -337,11 +331,13 @@
             const size = document.getElementById('text-size').value;
             
             const pRender = document.getElementById('text-preview-render');
-            pRender.innerText = msg; pRender.style.fontFamily = font;
-            pRender.style.color = color; pRender.style.fontSize = size + "px";
+            if(pRender) {
+                pRender.innerText = msg; pRender.style.fontFamily = font;
+                pRender.style.color = color; pRender.style.fontSize = size + "px";
+            }
         }
 
-        // HÀM ADD CHỮ ĐÃ ĐỔI SANG THẺ DIV KHÔNG LO BỊ MẤT CHỮ TRÊN DRIVE
+        // CÁCH NÀY ĐẢM BẢO CHỤP ẢNH CANVAS KHÔNG BAO GIỜ BỊ CẮT CHỮ
         function addLetterToBook() {
             const msg = document.getElementById('text-message').value;
             if(!msg) return;
@@ -355,8 +351,14 @@
             textDiv.style.fontFamily = font;
             textDiv.style.color = color; 
             textDiv.style.fontSize = size + "px";
+            
+            // Xử lý để div ôm trọn text và giữ nguyên xuống dòng
             textDiv.style.whiteSpace = 'pre-wrap';
             textDiv.style.wordBreak = 'break-word';
+            textDiv.style.width = '100%';
+            textDiv.style.height = 'auto';
+            textDiv.style.pointerEvents = 'none';
+            textDiv.style.lineHeight = '1.4';
             
             spawnElement(textDiv, 'global-canvas', null, true);
             document.getElementById('text-message').value = ''; updateTextPreview();
@@ -373,6 +375,8 @@
 
         function spawnElement(source, targetContainerId, defaultSize = 100, isText = false) {
             const container = document.getElementById(targetContainerId);
+            if(!container) return;
+            
             const wrapper = document.createElement('div');
             wrapper.className = 'sticker-wrapper active';
             
@@ -381,9 +385,8 @@
             wrapper.style.zIndex = activeCounter++;
             
             if(isText) {
-                wrapper.style.width = '220px';
-                wrapper.style.height = '110px';
-                source.className = 'content-core';
+                wrapper.style.width = '250px'; // Chiều rộng mặc định cho khung chữ
+                wrapper.style.height = 'auto'; // Chiều cao tự giãn theo chữ
                 wrapper.appendChild(source);
             } else {
                 if(defaultSize) { wrapper.style.width = defaultSize + 'px'; wrapper.style.height = defaultSize + 'px'; }
@@ -396,7 +399,7 @@
             const delBtn = document.createElement('div');
             delBtn.className = 'control-btn btn-delete'; delBtn.innerHTML = '×';
             delBtn.onclick = (e) => { e.stopPropagation(); wrapper.remove(); };
-            delBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); e.preventDefault(); wrapper.remove(); });
+            delBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); e.preventDefault(); wrapper.remove(); }, {passive: false});
             wrapper.appendChild(delBtn);
 
             const rotBtn = document.createElement('div');
@@ -412,7 +415,6 @@
             setupInteractions(wrapper, rotBtn, handle);
         }
 
-        // HỖ TRỢ KÉO THẢ CẢM ỨNG TRÊN ĐIỆN THOẠI MƯỢT MÀ
         function setupInteractions(wrapper, rotBtn, handle) {
             function startDrag(clientX, clientY) {
                 document.querySelectorAll('.sticker-wrapper').forEach(w => w.classList.remove('active'));
@@ -506,15 +508,15 @@
             hiddenEls.forEach(el => el.style.display = 'none');
             
             const sidebar = document.getElementById('sidebar');
-            sidebar.style.background = 'transparent'; sidebar.style.border = 'none'; sidebar.style.boxShadow = 'none';
+            if(sidebar) { sidebar.style.background = 'transparent'; sidebar.style.border = 'none'; sidebar.style.boxShadow = 'none'; }
 
             const captureZone = document.getElementById('capture-zone');
-            captureZone.style.background = '#fef4f5';
+            if(captureZone) captureZone.style.background = '#fef4f5';
 
             html2canvas(captureZone, { backgroundColor: '#fef4f5', useCORS: true }).then(canvas => {
                 hiddenEls.forEach(el => el.style.display = '');
-                sidebar.style.background = ''; sidebar.style.border = ''; sidebar.style.boxShadow = '';
-                captureZone.style.background = '';
+                if(sidebar) { sidebar.style.background = ''; sidebar.style.border = ''; sidebar.style.boxShadow = ''; }
+                if(captureZone) captureZone.style.background = '';
                 
                 const base64Data = canvas.toDataURL('image/png');
                 let box = new FormData();
