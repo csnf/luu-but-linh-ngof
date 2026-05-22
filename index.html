@@ -389,15 +389,20 @@
             const color = document.getElementById('text-color').value;
             const size = document.getElementById('text-size').value;
 
-            const textArea = document.createElement('textarea');
-            textArea.value = msg; 
-            textArea.style.fontFamily = font;
-            textArea.style.color = color; 
-            textArea.style.fontSize = size + "px";
-            textArea.readOnly = true; 
+            // Đổi từ thẻ textarea sang thẻ div để camera html2canvas chụp chuẩn xác 100%
+            const textDiv = document.createElement('div');
+            textDiv.innerText = msg; // Dùng innerText để giữ nguyên các lần bấm Enter xuống dòng
+            textDiv.style.fontFamily = font;
+            textDiv.style.color = color; 
+            textDiv.style.fontSize = size + "px";
             
-            spawnElement(textArea, 'global-canvas', null, true);
+            // Hai dòng CSS quan trọng nhất để chữ không bị cắt và giữ đúng xuống dòng
+            textDiv.style.whiteSpace = 'pre-wrap';
+            textDiv.style.wordBreak = 'break-word';
+            
+            spawnElement(textDiv, 'global-canvas', null, true);
             document.getElementById('text-message').value = ''; updateTextPreview();
+        }
         }
 
         function handleLocalImageUpload(e) {
