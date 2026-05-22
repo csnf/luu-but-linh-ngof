@@ -142,9 +142,7 @@
         }
         .submit-big-btn:hover { background-color: var(--color-pink-light); transform: translateY(-2px); }
 
-        /* ======================================================== */
         /* QUYỂN SỔ BÊN PHẢI */
-        /* ======================================================== */
         .scrapbook-container {
             flex: 1; height: 100%; display: flex; flex-direction: column; position: relative;
         }
@@ -152,7 +150,7 @@
             flex: 1; background-image: url('https://i.imgur.com/l6G7y3X.png');
             background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
             position: relative; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            overflow: hidden; margin-top: 50px; /* Chừa chỗ cho nhạc */
+            overflow: hidden; margin-top: 50px;
         }
         .bottom-footer-text {
             background: rgba(255,255,255,0.85); padding: 10px 20px; border-radius: 12px;
@@ -160,13 +158,11 @@
             font-weight: bold; border: 2px dashed var(--color-pink-light); line-height: 1.4;
         }
 
-        /* ======================================================== */
-        /* ĐỊNH DẠNG STICKER (QUẦN ÁO & STICKER SỔ) */
-        /* ======================================================== */
+        /* ĐỊNH DẠNG STICKER CHUNG */
         .sticker-wrapper {
             position: absolute; cursor: move; user-select: none;
             padding: 5px; box-sizing: border-box; display: inline-block;
-            touch-action: none; /* Khóa cuộn trang khi đang kéo thả trên đt */
+            touch-action: none;
         }
         .sticker-wrapper .control-btn, .sticker-wrapper .resize-handle { display: none; }
         .sticker-wrapper.active { border: 1px dashed var(--color-pink-dark); }
@@ -175,10 +171,10 @@
         .sticker-wrapper .content-core { 
             width: 100%; height: 100%; object-fit: contain; pointer-events: none; display: block; 
             background: transparent; border: none; outline: none; padding: 0; margin: 0;
-            resize: none; font-weight: bold; line-height: 1.3; overflow: hidden;
+            font-weight: bold; line-height: 1.3; overflow: hidden;
         }
 
-        /* Nút điều khiển */
+        /* CÁC NÚT ĐIỀU KHIỂN STICKER */
         .control-btn {
             position: absolute; width: 20px; height: 20px; border-radius: 50%;
             color: white; text-align: center; line-height: 18px; font-size: 12px;
@@ -192,42 +188,14 @@
             bottom: -8px; right: -8px; cursor: se-resize; z-index: 5;
         }
 
-        /* ======================================================== */
-        /* CẤU HÌNH ĐỂ CHẠY TRÊN ĐIỆN THOẠI (RESPONSIVE) */
-        /* ======================================================== */
+        /* RESPONSIVE CSS CHO ĐIỆN THOẠI VÀ MÁY TÍNH BẢNG */
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-                overflow-y: auto; /* Cho phép cuộn dọc toàn trang web */
-                height: auto;
-            }
-            .main-layout {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-                gap: 15px;
-            }
-            .sidebar-tools {
-                width: 100%;
-                min-width: 100%;
-                height: auto; /* Tự co giãn theo các khung */
-                overflow-y: visible;
-            }
-            .scrapbook-container {
-                width: 100%;
-                height: 550px; /* Cố định chiều cao sổ trên điện thoại để dễ xếp đồ */
-            }
-            .book-canvas-wrapper {
-                margin-top: 10px; /* Thu gọn khoảng cách */
-            }
-            .music-player {
-                position: relative;
-                top: 0; right: 0;
-                width: 100%;
-                height: 80px;
-                margin-bottom: -10px;
-                border-radius: 0;
-            }
+            body { flex-direction: column; overflow-y: auto; height: auto; }
+            .main-layout { flex-direction: column; height: auto; padding: 10px; gap: 15px; }
+            .sidebar-tools { width: 100%; min-width: 100%; height: auto; overflow-y: visible; }
+            .scrapbook-container { width: 100%; height: 550px; }
+            .book-canvas-wrapper { margin-top: 10px; }
+            .music-player { position: relative; top: 0; right: 0; width: 100%; height: 80px; margin-bottom: -10px; border-radius: 0; }
         }
     </style>
 </head>
@@ -240,7 +208,6 @@
     <div class="main-layout" id="capture-zone">
         
         <div class="sidebar-tools" id="sidebar">
-            
             <div class="section-box pink-border hide-on-print">
                 <h3 class="section-title">Cho tui xin tên của tình yêu ngeng ❤</h3>
                 <input type="text" class="input-text-field" id="sender-name" placeholder="Nhập tên vào đây nàooo...">
@@ -248,19 +215,16 @@
 
             <div class="section-box keep-for-print" id="avatar-section">
                 <h3 class="section-title hide-on-print">Avatar Kawaii cho cả nhà :3</h3>
-                
                 <div class="avatar-plate-area">
                     <div class="plate-frame" id="avatar-plate">
                         <img src="https://i.imgur.com/Z5BceLv.png" class="avatar-base-img" id="main-character">
                     </div>
                 </div>
-                
                 <div class="avatar-select-row hide-on-print">
                     <img src="https://i.imgur.com/Z5BceLv.png" onclick="changeBaseCharacter('https://i.imgur.com/Z5BceLv.png')">
                     <img src="https://i.imgur.com/SfdbDhQ.png" onclick="changeBaseCharacter('https://i.imgur.com/SfdbDhQ.png')">
                     <img src="https://i.imgur.com/9OBKwJX.png" onclick="changeBaseCharacter('https://i.imgur.com/9OBKwJX.png')">
                 </div>
-                
                 <p class="hide-on-print" style="font-size:0.8rem; color: gray; margin: 5px 0; text-align:center;">Bấm để mặc đồ cho búp bê nha:</p>
                 <div class="item-shelf hide-on-print" id="clothes-shelf"></div>
             </div>
@@ -277,7 +241,6 @@
                         <option value="'Patrick Hand', cursive">Chữ Mảnh Khảnh</option>
                     </select>
                     <input type="color" id="text-color" value="#ee4176" onchange="updateTextPreview()">
-                    
                     <div style="display: flex; align-items: center; gap: 3px;">
                         <span style="font-size: 0.8rem; color: #555;">Size:</span>
                         <input type="number" id="text-size" min="10" max="50" value="24" style="width: 50px; text-align: center;" onchange="updateTextPreview()" oninput="updateTextPreview()">
@@ -313,12 +276,10 @@
             <div class="book-canvas-wrapper" id="print-book-zone">
                 <div id="global-canvas" style="width:100%; height:100%; position:relative;"></div>
             </div>
-            
             <div class="bottom-footer-text hide-on-print">
                 "Cảm ơn tình yêu đã viết lưu bút cho tớ, cảm ơn đằng ấy đã là một phần kí ức tuyệt đẹp trong 1000 ngày nắng Thanh Miện của ngòo, mong sao 2 đứa mình sẽ luôn như thế này bất kể khoảng cách nhé, love you &lt;3"
             </div>
         </div>
-
     </div>
 
     <script>
@@ -347,7 +308,6 @@
             });
             switchStickerTab('hoa');
 
-            // Hủy chọn sticker khi click/chạm ra ngoài
             const unselectHandler = function(e) {
                 if (!e.target.closest('.sticker-wrapper')) {
                     document.querySelectorAll('.sticker-wrapper').forEach(w => w.classList.remove('active'));
@@ -381,6 +341,7 @@
             pRender.style.color = color; pRender.style.fontSize = size + "px";
         }
 
+        // HÀM ADD CHỮ ĐÃ ĐỔI SANG THẺ DIV KHÔNG LO BỊ MẤT CHỮ TRÊN DRIVE
         function addLetterToBook() {
             const msg = document.getElementById('text-message').value;
             if(!msg) return;
@@ -389,20 +350,16 @@
             const color = document.getElementById('text-color').value;
             const size = document.getElementById('text-size').value;
 
-            // Đổi từ thẻ textarea sang thẻ div để camera html2canvas chụp chuẩn xác 100%
             const textDiv = document.createElement('div');
-            textDiv.innerText = msg; // Dùng innerText để giữ nguyên các lần bấm Enter xuống dòng
+            textDiv.innerText = msg; 
             textDiv.style.fontFamily = font;
             textDiv.style.color = color; 
             textDiv.style.fontSize = size + "px";
-            
-            // Hai dòng CSS quan trọng nhất để chữ không bị cắt và giữ đúng xuống dòng
             textDiv.style.whiteSpace = 'pre-wrap';
             textDiv.style.wordBreak = 'break-word';
             
             spawnElement(textDiv, 'global-canvas', null, true);
             document.getElementById('text-message').value = ''; updateTextPreview();
-        }
         }
 
         function handleLocalImageUpload(e) {
@@ -439,8 +396,6 @@
             const delBtn = document.createElement('div');
             delBtn.className = 'control-btn btn-delete'; delBtn.innerHTML = '×';
             delBtn.onclick = (e) => { e.stopPropagation(); wrapper.remove(); };
-            
-            // Hỗ trợ chạm nút xóa trên đt nhanh hơn
             delBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); e.preventDefault(); wrapper.remove(); });
             wrapper.appendChild(delBtn);
 
@@ -453,27 +408,22 @@
             wrapper.appendChild(handle);
 
             container.appendChild(wrapper);
-
             document.querySelectorAll('.sticker-wrapper').forEach(w => { if(w !== wrapper) w.classList.remove('active'); });
             setupInteractions(wrapper, rotBtn, handle);
         }
 
-        // ĐÃ NÂNG CẤP ĐỂ TƯƠNG THÍCH MÀN HÌNH ĐIỆN THOẠI (TOUCH EVENTS)
+        // HỖ TRỢ KÉO THẢ CẢM ỨNG TRÊN ĐIỆN THOẠI MƯỢT MÀ
         function setupInteractions(wrapper, rotBtn, handle) {
-            
-            // 1. Logic xử lý Kéo di chuyển vị trí (Drag)
             function startDrag(clientX, clientY) {
                 document.querySelectorAll('.sticker-wrapper').forEach(w => w.classList.remove('active'));
                 wrapper.classList.add('active'); wrapper.style.zIndex = activeCounter++;
                 let startLeft = wrapper.offsetLeft, startTop = wrapper.offsetTop;
-                
                 return function moveDrag(currX, currY) {
                     wrapper.style.left = (startLeft + (currX - clientX)) + 'px';
                     wrapper.style.top = (startTop + (currY - clientY)) + 'px';
                 };
             }
 
-            // Sự kiện kéo chuột (PC)
             wrapper.addEventListener('mousedown', function(e) {
                 if(e.target.classList.contains('control-btn') || e.target.classList.contains('resize-handle')) return;
                 let onDrag = startDrag(e.clientX, e.clientY);
@@ -482,7 +432,6 @@
                 window.addEventListener('mousemove', mouseMove); window.addEventListener('mouseup', mouseUp);
             });
 
-            // Sự kiện kéo cảm ứng (Điện thoại)
             wrapper.addEventListener('touchstart', function(e) {
                 if(e.target.classList.contains('control-btn') || e.target.classList.contains('resize-handle')) return;
                 let touch = e.touches[0];
@@ -492,7 +441,6 @@
                 window.addEventListener('touchmove', touchMove, {passive: false}); window.addEventListener('touchend', touchEnd);
             });
 
-            // 2. Logic xử lý Phóng to/Thu nhỏ (Resize)
             function startResize(clientX, clientY) {
                 let startWidth = wrapper.offsetWidth; let startHeight = wrapper.offsetHeight;
                 return function moveResize(currX, currY) {
@@ -520,7 +468,6 @@
                 window.addEventListener('touchmove', touchMove, {passive: false}); window.addEventListener('touchend', touchEnd);
             });
 
-            // 3. Logic xử lý Xoay (Rotate)
             function startRotate() {
                 let rect = wrapper.getBoundingClientRect();
                 let centerX = rect.left + rect.width / 2; let centerY = rect.top + rect.height / 2;
@@ -550,12 +497,10 @@
 
         function uploadScrapbookToDrive() {
             document.querySelectorAll('.sticker-wrapper').forEach(w => w.classList.remove('active'));
-            // Ẩn tất cả viền khung nét đứt của chữ trước khi chụp ảnh gửi lên Drive
-            document.querySelectorAll('.book-canvas-wrapper textarea').forEach(el => el.style.border = 'none');
 
             const scriptURL = "https://script.google.com/macros/s/AKfycbz0bFt3aVAwSsNrHLVc6GBjWr5_2Okc-HoyJKf7Ds3PskAdNbSC9GO6Hd1XJfY7YhvT/exec"; 
             const sender = document.getElementById('sender-name').value.trim() || 'AiDoGiauTen';
-            alert("Đang đóng gói và chụp một bức ảnh siêu đẹp gửi vào Drive của ngò tò... Bà đợi 3-5s nhe!");
+            alert("Đang chụp ảnh lưu bút gửi vào Drive của ngò tò... Đợi tớ 3-5s nhe!");
 
             const hiddenEls = document.querySelectorAll('.hide-on-print');
             hiddenEls.forEach(el => el.style.display = 'none');
@@ -571,9 +516,6 @@
                 sidebar.style.background = ''; sidebar.style.border = ''; sidebar.style.boxShadow = '';
                 captureZone.style.background = '';
                 
-                // Khôi phục lại viền nét đứt nhẹ để người dùng tiếp tục chỉnh sửa nếu thích
-                document.querySelectorAll('.book-canvas-wrapper textarea').forEach(el => el.style.border = '');
-
                 const base64Data = canvas.toDataURL('image/png');
                 let box = new FormData();
                 box.append('filename', 'LuuBut_' + sender + '_' + new Date().getTime() + '.png');
@@ -581,7 +523,7 @@
 
                 fetch(scriptURL, { method: 'POST', body: box, mode: 'no-cors' })
                 .then(() => {
-                    alert("Gửi thành công rực rỡ rồi nha bà ơi! Ảnh nằm gọn trong Drive rồi đó! 🥰");
+                    alert("Gửi thành công rực rỡ rồi nha bà ơi! Ảnh nét căng đã nằm gọn trong Drive! 🥰");
                 })
                 .catch(err => {
                     alert("Úi, mạng lag xíu rồi, kiểm tra lại nha.");
@@ -593,19 +535,12 @@
     <script>
         document.addEventListener('click', function() {
             var widgetIframe = document.getElementById('sc-widget');
-            if (widgetIframe) {
-                var widget = SC.Widget(widgetIframe);
-                widget.play();
-            }
+            if (widgetIframe) { var widget = SC.Widget(widgetIframe); widget.play(); }
         }, { once: true });
         
-        // Hỗ trợ kích hoạt nhạc bằng chạm màn hình điện thoại
         document.addEventListener('touchstart', function() {
             var widgetIframe = document.getElementById('sc-widget');
-            if (widgetIframe) {
-                var widget = SC.Widget(widgetIframe);
-                widget.play();
-            }
+            if (widgetIframe) { var widget = SC.Widget(widgetIframe); widget.play(); }
         }, { once: true });
     </script>
 </body>
